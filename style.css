@@ -1,0 +1,144 @@
+
+@font-face {
+  font-family: 'helvetica';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Helvetica'), url('fonts/Helvetica-01.ttf') format('ttf');
+}
+*{
+  font-family: "helvetica";
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+div:focus{
+  border: none;
+  outline: none;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  height: 40px;
+  background-color: #eaeaea;
+  
+}
+.search-input{
+  height: 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fefefe;
+  box-shadow: 0px 0px 2px #ccc;
+}
+.flex {
+  display: flex;
+}
+.aligned{
+  align-items: center;
+}
+.space-between{
+  justify-content: space-between;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+.icon {
+  width: 15px;
+}
+.btn-controll{
+  display: block;
+  width: 40px;
+  height: 20px;
+  border:none;
+  margin:2px;
+  border-radius: 4px;
+  color: #999;
+  font-weight: bold;
+  box-shadow: 0px 0px 2px #ccc;
+  background-color: #fefefe;
+}
+.container {
+  display: flex;
+  width: 100%;
+}
+.col{
+  border-right: 1px solid #e6e6e6;
+  height: calc(100vh - 40px);
+  width: 100%;
+  padding: 0px;
+}
+.note-item{
+  padding: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  cursor: pointer;
+}
+.note-item.active{
+  background-color: #efefef;
+}
+.note-item p {
+  font-size: .8rem;
+  color:#666;
+  
+}
+.note-item h4 {
+  font-size: .9rem;
+  color:#444;
+}
+.note-body {
+  /* max-width: 400px; */
+  font-size: .8rem;
+  padding: 10px;
+}
+.note-list {
+  max-width: 200px;
+}
+.note-folders{
+  position: relative;
+  max-width: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.new-folder {
+ 
+}
+.note-folders p{
+  font-weight: bold;
+  color: #666;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.new-folder{
+  padding: 10px;
+  cursor: pointer;
+}
+.note-date {
+  text-align: center;
+  color: #666;
+  padding: 0 0 10px 0 ;
+}
+
+
+._inner_content_table {
+  border-bottom: 1px solid #ccc;
+}
+
+._inner_content_table td{
+  border: 1px solid #ccc;
+  border-left: none;
+  border-bottom: none;
+  padding: 4px 4px;
+  width: 100px;
+}
+._inner_content_table td:first-child{
+  border-left: 1px solid #ccc;
+}
+._inner_content_table tr:last-child{
+  border-bottom: 1px solid #ccc;
+}

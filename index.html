@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+    <!-- <link rel="stylesheet" href="fonts/style.css"> -->
+    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+<body style="background: white;">
+  <div class="top-bar">
+    <div class="buttons flex">
+      <div class="flex ml-10">
+        <button class="btn-controll"> D </button>
+        <button class="btn-controll"><img src="./icons/attach.png" class='icon' alt=""></button>
+        <button class="btn-controll"><img src="./icons/trash.png" class='icon' alt=""></button>
+        <button class="btn-controll" onclick="core.addNoteOnList()"><img src="./icons/create.png" class='icon' alt=""></button>
+      </div>
+      <div class="flex ml-10">
+        <button class="btn-controll" onclick="core.addTableOnContent(3,4)"> E </button>
+        <button class="btn-controll"> F </button>
+        <button class="btn-controll"> G </button>
+        <button class="btn-controll"> I </button>
+      </div>
+      <div class="flex ml-10">
+        <button class="btn-controll"> J </button>
+        <button class="btn-controll"> K </button>
+      </div>
+    </div>
+    <div class="search-container">
+      <input type="text" class="search-input">
+    </div>
+  </div>
+   <div class="container">
+     <div class="col note-folders">
+       <p>Locais</p>
+       
+       <div class="flex aligned">
+        <img src="./icons/add.png" width="15px" height="15px" class='icon' alt="">
+        <p class='new-folder'>Criar pasta</p>
+       </div>
+      </div>
+     <div id="note-list" class="col note-list">
+     </div>
+     <div class="col note-body">
+       <h4 class='note-date'>21 de março de 2016 18:17</h4>
+        <div contenteditable="true" id="content-editable">
+          <p>
+            Lorem ipsum dolor elit.
+            Expedita inventore, culpa veniam commodi dicta voluptates 
+            illum unde, accusantium atque esse, quaerat ipsam. 
+            Porro numquam nesciunt iure asperiores culpa quia quas!
+          </p>
+          <p>
+            Lorem ipsum dolor elit.
+            Expedita inventore, culpa veniam commodi dicta voluptates 
+            illum unde, accusantium atque esse, quaerat ipsam. 
+            Porro numquam nesciunt iure asperiores culpa quia quas!
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Expedita inventore, culpa veniam commodi dicta voluptates 
+            illum unde, accusantium atque esse, quaerat ipsam. 
+            Porro numquam nesciunt iure asperiores culpa quia quas!
+          </p>
+        </div>
+     </div>
+   </div>
+   <script src="core/index.js"></script>
+</body>
+</html>
