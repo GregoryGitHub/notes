@@ -11,23 +11,24 @@
   <div class="top-bar">
     <div class="buttons flex">
       <div class="flex ml-10">
-        <button class="btn-controll"> D </button>
-        <button class="btn-controll"><img src="./icons/attach.png" class='icon' alt=""></button>
-        <button class="btn-controll"><img src="./icons/trash.png" class='icon' alt=""></button>
-        <button class="btn-controll" onclick="core.addNoteOnList()"><img src="./icons/create.png" class='icon' alt=""></button>
+        <button class="btn-controll"><img src="./icons/layout.svg" class='icon' alt=""></button>
+        <button class="btn-controll"><img src="./icons/paper-clip.svg" class='icon' alt=""></button>
+        <button class="btn-controll" onclick="core.removeNoteOnList()"><img src="./icons/trash.svg" class='icon' alt=""></button>
+        <button class="btn-controll" onclick="core.newNote()"><img src="./icons/add-note.svg" class='icon' alt=""></button>
       </div>
       <div class="flex ml-10">
-        <button class="btn-controll" onclick="core.addTableOnContent(3,4)"> E </button>
-        <button class="btn-controll"> F </button>
-        <button class="btn-controll"> G </button>
-        <button class="btn-controll"> I </button>
+        <button class="btn-controll"><img src="./icons/lock.svg" class='icon' alt=""></button>
+        <button class="btn-controll" onclick="core.addTableOnContent(3,4)"><img src="./icons/table.svg" class='icon' alt=""></button>
+        <button class="btn-controll"><img src="./icons/check.svg" class='icon' alt=""></button>
+        <button class="btn-controll"><img src="./icons/font.svg" class='icon' alt=""></button>
+        <button class="btn-controll"><img src="./icons/images.svg" class='icon' alt=""></button>
       </div>
       <div class="flex ml-10">
-        <button class="btn-controll"> J </button>
-        <button class="btn-controll"> K </button>
+        <button class="btn-controll"><img src="./icons/share.svg" class='icon' alt=""></button>
       </div>
     </div>
     <div class="search-container">
+      <div class="search-icon"><img src="./icons/loupe.svg" class='icon' alt=""></div>
       <input type="text" class="search-input">
     </div>
   </div>
@@ -36,7 +37,7 @@
        <p>Locais</p>
        
        <div class="flex aligned">
-        <img src="./icons/add.png" width="15px" height="15px" class='icon' alt="">
+        <img src="./icons/add.svg" width="18px" height="18px" class='icon' alt="">
         <p class='new-folder'>Criar pasta</p>
        </div>
       </div>
@@ -44,25 +45,7 @@
      </div>
      <div class="col note-body">
        <h4 class='note-date'>21 de março de 2016 18:17</h4>
-        <div contenteditable="true" id="content-editable">
-          <p>
-            Lorem ipsum dolor elit.
-            Expedita inventore, culpa veniam commodi dicta voluptates 
-            illum unde, accusantium atque esse, quaerat ipsam. 
-            Porro numquam nesciunt iure asperiores culpa quia quas!
-          </p>
-          <p>
-            Lorem ipsum dolor elit.
-            Expedita inventore, culpa veniam commodi dicta voluptates 
-            illum unde, accusantium atque esse, quaerat ipsam. 
-            Porro numquam nesciunt iure asperiores culpa quia quas!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Expedita inventore, culpa veniam commodi dicta voluptates 
-            illum unde, accusantium atque esse, quaerat ipsam. 
-            Porro numquam nesciunt iure asperiores culpa quia quas!
-          </p>
+        <div contenteditable="true" id="editor">
         </div>
      </div>
    </div>

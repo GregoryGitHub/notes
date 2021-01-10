@@ -12,9 +12,9 @@
   box-sizing: border-box;
   
 }
-div:focus{
-  border: none;
-  outline: none;
+div:focus,input:focus, *:focus{
+  border: none!important;
+  outline: none!important;
 }
 
 .top-bar {
@@ -28,11 +28,22 @@ div:focus{
   
 }
 .search-input{
-  height: 20px;
+  height: 25px;
   border: none;
   border-radius: 4px;
-  background-color: #fefefe;
+  padding-left: 10px;
+}
+.search-container .icon{
+  display: block;
+}
+.search-container {
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center; background-color: #fefefe;
+  padding-left: 10px;
   box-shadow: 0px 0px 2px #ccc;
+
 }
 .flex {
   display: flex;
@@ -47,12 +58,16 @@ div:focus{
   margin-left: 10px;
 }
 .icon {
-  width: 15px;
+  width: 18px;
+}
+.btn-controll:hover{
+  background-color: #f8f8f8;
+  cursor: pointer;
 }
 .btn-controll{
   display: block;
   width: 40px;
-  height: 20px;
+  height: 25px;
   border:none;
   margin:2px;
   border-radius: 4px;
