@@ -1,3 +1,4 @@
+
 class Core {
   
   constructor(){
@@ -6,6 +7,7 @@ class Core {
     this.notes = [{
       title:"Nota sem título",
       dateTime: "10/01/2020 13:00",
+      resume:"Lorem ipsum dolor elit",
       editor: `<h1>Nota sem título</h1> 
                <p>
                   Lorem ipsum dolor elit.
@@ -13,13 +15,32 @@ class Core {
                </p>`,
       active:true
     }];
-
+    this.activeNoteIndex =0;
     this.onInit();
   }
 
 
   onInit(){
+    this.loadState();
     this.render();
+    this.editor.addEventListener('input',this.listenInput)
+
+  }
+
+  listenInput = (event)=>{
+    this.getActiveNote().title = this.getFirstLineValue();
+    this.getActiveNote().resume = (this.editor.innerText.replace(this.getActiveNote().title,'')).trim().substr(0,18);
+    this.getActiveNote().editor = this.editor.innerHTML;
+    
+    this.saveState();
+    this.renderActiveNote();
+  }
+
+  renderActiveNote(){
+    const {title, resume, dateTime, editor} = this.getActiveNote();
+    const activeItemDom = document.querySelector(`[data-note-index="${this.activeNoteIndex}"]`);
+    activeItemDom.children[0].innerText = title;
+    activeItemDom.children[2].innerText = resume;
   }
 
   render(){
@@ -27,7 +48,13 @@ class Core {
     this.notes.forEach((note,i)=>{
 
       const listItem = this._createNoteListItem(note,i);
+      listItem.addEventListener('click',this.onNoteClicked)
       this.noteList.appendChild(listItem);
+      if(note.active){
+        this.editor.innerHTML = note.editor;
+        this.activeNoteIndex = i;
+
+      };
 
     })
   }
@@ -36,51 +63,55 @@ class Core {
     this.noteList.innerHTML = "";
   }
 
+  onNoteClicked = (event)=>{
+    this.resetActiveNotes(); // problemas de escopo
+    const index = event.currentTarget.getAttribute('data-note-index');
+    this.notes[index].active = true;
+    this.saveState();
+    this.render();
+  }
+
   resetActiveNotes(){
     this.notes = this.notes.map(note=>({ ...note, active:false }));
   }
 
   getActiveNote(){
-    return (this.allNotes || []).find(n=>n.className.includes('active'));
+    return this.notes[this.activeNoteIndex] || {};
   }
 
   getFirstLineValue(chars=18){
-    return ((this.editor).innerText || '').substr(0,chars);
+    return ((this.editor).innerText || '').substr(0,chars).trim();
   }
 
-  updateNoteTitle(title){
-    if(title == '') title = "Nota sem título"
-    return this.getActiveNote().children[0].innerText = title.trim();
-  }
 
   _createNoteListItem(note,noteIndex){
  
     const noteItem = document.createElement("div");
     const title = document.createElement("h4");
-    const titleOnContent = document.createElement("h1");
     const date = document.createElement("span");
     const p = document.createElement("p");
     const now = new Date();
 
-    title.innerText = `${note.title} ${noteIndex + 1}`;
-    titleOnContent.innerHTML = `${note.title} ${noteIndex + 1}`;
+    title.innerText = `${note.title}`;
     date.innerText = "12:00";
-    p.innerText = "";
+    p.innerText = (note.resume)|| "";
 
-    p.appendChild(date);
     noteItem.appendChild(title);
+    noteItem.appendChild(date);
     noteItem.appendChild(p);
     noteItem.classList.add("note-item");
+    noteItem.setAttribute('data-note-index',noteIndex)
     note.active && noteItem.classList.add('active');
     return noteItem;
   }
 
   newNote() {
     this.resetActiveNotes();
+    const index = this.notes.length + 1;
     const note = {
-      title:"Nota sem título",
+      title:`Nota sem título ${index}`,
       dateTime: "10/01/2020 13:00",
-      editor: `<h1>Nota sem título</h1>`,
+      editor: `<h1>Nota sem título ${index}</h1>`,
       active:true
     };
 
@@ -88,19 +119,22 @@ class Core {
     this.render();
   }
 
-  removeNoteOnList(){
-    this.notes.removeChild(this.getActiveNote());
-    this.editor.innerHTML = "";
+  resetDefaultActive(index =0){
+    if(typeof this.notes[index] !== "undefined"){
+      this.resetActiveNotes();
+      this.notes[index].active = true;
+    }
   }
 
-  setActiveNote(note){
-    this.clearActiveItems();
-    note.classList.add('active');
-    const noteIndex = this.allNotes.indexOf(note);
-    const _note = this.allNotes[noteIndex];
-    this.setContent(_note._editor)
+  removeNote(){
+    if(this.activeNoteIndex > -1){
+      this.notes.splice(this.activeNoteIndex,1);
+      this.clearContent();
+    }
+    this.resetDefaultActive();
+    this.saveState();
+    this.render();
   }
-
 
   clearActiveItems() {
     document.querySelectorAll(".note-item").forEach((note) => {
@@ -110,12 +144,6 @@ class Core {
 
   clearContent() {
     this.editor.innerHTML = "";
-  }
-
-  setContent(content) {
-    if(content){
-      this.editor.innerHTML = content;
-    }
   }
 
   addTableOnContent(rows, collums) {
@@ -135,25 +163,23 @@ class Core {
     document.getElementById("content-editable").appendChild(table);
   }
 
-  saveNotes(){
-    console.log(JSON.stringify(this.allNotes))
-    try{
-      localStorage.setItem('notes',JSON.stringify(this.allNotes));
-      localStorage.setItem('note-list',document.getElementById('note-list').innerHTML);
-    }catch(e){
-      console.log('Erro ao salvar notas',e)
-    }
+  saveState(){
+      try{
+        localStorage.setItem('notes',JSON.stringify(this.notes));
+      }catch(e){
+        console.log('Erro ao salvar notas',e)
+      }
   }
 
-  loadNotes(){
+  loadState(){
     try {
-      this.allNotes =  JSON.parse(localStorage.getItem('notes'));
-      //document.getElementById('note-list').innerHTML = localStorage.getItem('note-list') || "";
+      this.notes =  JSON.parse(localStorage.getItem('notes')) || [];
     } catch (error) {
       console.log('Erro ao recuperar notas',error)
     }
     return null;
   }
+
 }
 
 const core = new Core();

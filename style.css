@@ -94,10 +94,14 @@ div:focus,input:focus, *:focus{
 .note-item.active{
   background-color: #efefef;
 }
+.note-item span {
+  font-size: .8rem;
+}
 .note-item p {
   font-size: .8rem;
   color:#666;
-  
+  display: inline;
+  padding-left: 4px;
 }
 .note-item h4 {
   font-size: .9rem;
