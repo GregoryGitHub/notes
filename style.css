@@ -19,7 +19,7 @@ div:focus,input:focus, *:focus{
 
 .top-bar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
@@ -42,7 +42,8 @@ div:focus,input:focus, *:focus{
   justify-content: center;
   align-items: center; background-color: #fefefe;
   padding-left: 10px;
-  box-shadow: 0px 0px 2px #ccc;
+  margin-right: 10px;
+  box-shadow: 0px 0px 2px rgb(126, 119, 119);
 
 }
 .flex {

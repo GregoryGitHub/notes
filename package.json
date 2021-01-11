@@ -3,13 +3,32 @@
   "version": "1.0.0",
   "description": "App that facilites your notes managment",
   "main": "main.js",
+  "build": {
+    "appId": "notes.all",
+    "mac": {
+      "category": "office.notes"
+    },
+    "win": {
+      "icon": "icons/notes.ico",
+      "target": [
+        "portable"
+      ]
+    }
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^11.1.1"
+    "electron": "^11.1.1",
+    "electron-builder": "^22.9.1"
+  },
+  "dependencies": {
+    "moment": "^2.29.1"
   }
 }
