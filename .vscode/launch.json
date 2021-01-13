@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "electron",
+            "request": "launch",
+            "name": "Launch this",
+            "sourceMaps": true
+        },
+        {
+            "type": "electron",
+            "request": "launch",
+            "name": "Launch notes",
+            "appDir": "C:\\Users\\jose.henrique.silva\\Dev\\notes",
+            "sourceMaps": true
+        }
+    ]
+}

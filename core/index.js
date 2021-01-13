@@ -1,91 +1,95 @@
-
 class Core {
-  
-  constructor(){
-    this.noteList = document.getElementById('note-list');
-    this.editor = document.getElementById('editor');
-    this.notes = [{
-      title:"Nota sem título",
-      dateTime: "10/01/2020 13:00",
-      resume:"Lorem ipsum dolor elit",
-      editor: `<h1>Nota sem título</h1> 
+  constructor() {
+    this.noteList = document.getElementById("note-list");
+    this.editor = document.getElementById("editor");
+    this.notes = [
+      {
+        title: "Nota sem título",
+        dateTime: "10/01/2020 13:00",
+        resume: "Lorem ipsum dolor elit",
+        editor: `<h1>Nota sem título</h1> 
                <p>
                   Lorem ipsum dolor elit.
                   Expedita inventore, culpa veniam commodi dicta voluptates 
                </p>`,
-      active:true
-    }];
-    this.activeNoteIndex =0;
+        active: true,
+      },
+    ];
+    this.activeNoteIndex = 0;
     this.onInit();
   }
 
-
-  onInit(){
+  onInit() {
     this.loadState();
     this.render();
-    this.editor.addEventListener('input',this.listenInput)
-
+    this.editor.addEventListener("input", this.listenInput);
   }
 
-  listenInput = (event)=>{
-    this.getActiveNote().title = this.getFirstLineValue();
-    this.getActiveNote().resume = (this.editor.innerText.replace(this.getActiveNote().title,'')).trim().substr(0,18);
+  listenInput = (event) => {
+    this.getActiveNote().title = this.getTitleText();
+    this.getActiveNote().resume = this.getResumeText();
     this.getActiveNote().editor = this.editor.innerHTML;
-    
+
     this.saveState();
     this.renderActiveNote();
-  }
+  };
 
-  renderActiveNote(){
-    const {title, resume, dateTime, editor} = this.getActiveNote();
-    const activeItemDom = document.querySelector(`[data-note-index="${this.activeNoteIndex}"]`);
+  renderActiveNote() {
+    const { title, resume, dateTime, editor } = this.getActiveNote();
+    const activeItemDom = document.querySelector(
+      `[data-note-index="${this.activeNoteIndex}"]`
+    );
     activeItemDom.children[0].innerText = title;
     activeItemDom.children[2].innerText = resume;
   }
 
-  render(){
+  render() {
     this.resetList();
-    this.notes.forEach((note,i)=>{
-
-      const listItem = this._createNoteListItem(note,i);
-      listItem.addEventListener('click',this.onNoteClicked)
+    this.notes.forEach((note, i) => {
+      const listItem = this._createNoteListItem(note, i);
+      listItem.addEventListener("click", this.onNoteClicked);
       this.noteList.appendChild(listItem);
-      if(note.active){
+      if (note.active) {
         this.editor.innerHTML = note.editor;
         this.activeNoteIndex = i;
-
-      };
-
-    })
+      }
+    });
   }
-  
-  resetList(){
+
+  resetList() {
     this.noteList.innerHTML = "";
   }
 
-  onNoteClicked = (event)=>{
+  onNoteClicked = (event) => {
     this.resetActiveNotes(); // problemas de escopo
-    const index = event.currentTarget.getAttribute('data-note-index');
+    const index = event.currentTarget.getAttribute("data-note-index");
     this.notes[index].active = true;
     this.saveState();
     this.render();
+  };
+
+  resetActiveNotes() {
+    this.notes = this.notes.map((note) => ({ ...note, active: false }));
   }
 
-  resetActiveNotes(){
-    this.notes = this.notes.map(note=>({ ...note, active:false }));
-  }
-
-  getActiveNote(){
+  getActiveNote() {
     return this.notes[this.activeNoteIndex] || {};
   }
 
-  getFirstLineValue(chars=18){
-    return ((this.editor).innerText || '').substr(0,chars).trim();
+  getTitleText(chars = 18) {
+    const line = (this.editor.innerText || "").split("\n");
+    return line[0];
   }
 
+  getResumeText() {
+    return this.editor.innerText
+      .replace(this.getActiveNote().title, "")
+      .trim()
+      .substr(0, 18)
+      .replace(/\n/g, "");
+  }
 
-  _createNoteListItem(note,noteIndex){
- 
+  _createNoteListItem(note, noteIndex) {
     const noteItem = document.createElement("div");
     const title = document.createElement("h4");
     const date = document.createElement("span");
@@ -94,14 +98,14 @@ class Core {
 
     title.innerText = `${note.title}`;
     date.innerText = "12:00";
-    p.innerText = (note.resume)|| "";
+    p.innerText = note.resume || "";
 
     noteItem.appendChild(title);
     noteItem.appendChild(date);
     noteItem.appendChild(p);
     noteItem.classList.add("note-item");
-    noteItem.setAttribute('data-note-index',noteIndex)
-    note.active && noteItem.classList.add('active');
+    noteItem.setAttribute("data-note-index", noteIndex);
+    note.active && noteItem.classList.add("active");
     return noteItem;
   }
 
@@ -109,26 +113,26 @@ class Core {
     this.resetActiveNotes();
     const index = this.notes.length + 1;
     const note = {
-      title:`Nota sem título ${index}`,
+      title: `Nota sem título ${index}`,
       dateTime: "10/01/2020 13:00",
       editor: `<h1>Nota sem título ${index}</h1>`,
-      active:true
+      active: true,
     };
 
     this.notes.push(note);
     this.render();
   }
 
-  resetDefaultActive(index =0){
-    if(typeof this.notes[index] !== "undefined"){
+  resetDefaultActive(index = 0) {
+    if (typeof this.notes[index] !== "undefined") {
       this.resetActiveNotes();
       this.notes[index].active = true;
     }
   }
 
-  removeNote(){
-    if(this.activeNoteIndex > -1){
-      this.notes.splice(this.activeNoteIndex,1);
+  removeNote() {
+    if (this.activeNoteIndex > -1) {
+      this.notes.splice(this.activeNoteIndex, 1);
       this.clearContent();
     }
     this.resetDefaultActive();
@@ -163,23 +167,22 @@ class Core {
     document.getElementById("content-editable").appendChild(table);
   }
 
-  saveState(){
-      try{
-        localStorage.setItem('notes',JSON.stringify(this.notes));
-      }catch(e){
-        console.log('Erro ao salvar notas',e)
-      }
+  saveState() {
+    try {
+      localStorage.setItem("folder::notes", JSON.stringify(this.notes));
+    } catch (e) {
+      console.log("Erro ao salvar notas", e);
+    }
   }
 
-  loadState(){
+  loadState() {
     try {
-      this.notes =  JSON.parse(localStorage.getItem('notes')) || [];
+      this.notes = JSON.parse(localStorage.getItem("folder::notes")) || [];
     } catch (error) {
-      console.log('Erro ao recuperar notas',error)
+      console.log("Erro ao recuperar notas", error);
     }
     return null;
   }
-
 }
 
 const core = new Core();
