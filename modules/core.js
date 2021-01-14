@@ -1,20 +1,12 @@
+import Formatter from "./formatter.js";
+
 class Core {
   constructor() {
+    this.formatter = new Formatter();
     this.noteList = document.getElementById("note-list");
     this.editor = document.getElementById("editor");
-    this.notes = [
-      {
-        title: "Nota sem título",
-        dateTime: "10/01/2020 13:00",
-        resume: "Lorem ipsum dolor elit",
-        editor: `<h1>Nota sem título</h1> 
-               <p>
-                  Lorem ipsum dolor elit.
-                  Expedita inventore, culpa veniam commodi dicta voluptates 
-               </p>`,
-        active: true,
-      },
-    ];
+    this.editor.spellcheck = false;
+    this.notes = [];
     this.activeNoteIndex = 0;
     this.onInit();
   }
@@ -23,6 +15,11 @@ class Core {
     this.loadState();
     this.render();
     this.editor.addEventListener("input", this.listenInput);
+    this.editor.addEventListener("keydown", (e) => {
+      if (e.key == "Tab") {
+        document.execCommand("insertHTML", false, "&nbsp&nbsp");
+      }
+    });
   }
 
   listenInput = (event) => {
@@ -56,6 +53,11 @@ class Core {
     });
   }
 
+  format(tagName) {
+    const { origin, data } = this.formatter.format(tagName);
+    this.editor.innerHTML = this.editor.innerHTML.replace(origin, data);
+  }
+
   resetList() {
     this.noteList.innerHTML = "";
   }
@@ -76,17 +78,21 @@ class Core {
     return this.notes[this.activeNoteIndex] || {};
   }
 
-  getTitleText(chars = 18) {
+  getTitleText(chars = 20) {
     const line = (this.editor.innerText || "").split("\n");
-    return line[0];
+    return line[0].substr(0, chars);
   }
 
   getResumeText() {
-    return this.editor.innerText
-      .replace(this.getActiveNote().title, "")
-      .trim()
-      .substr(0, 18)
-      .replace(/\n/g, "");
+    const secondLine = this.editor.innerText.split("\n");
+    if (secondLine[1]) {
+      return secondLine[1]
+        .replace(this.getActiveNote().title, "")
+        .trim()
+        .substr(0, 20)
+        .replace(/\n/g, "");
+    }
+    return "";
   }
 
   _createNoteListItem(note, noteIndex) {
@@ -131,13 +137,16 @@ class Core {
   }
 
   removeNote() {
-    if (this.activeNoteIndex > -1) {
-      this.notes.splice(this.activeNoteIndex, 1);
-      this.clearContent();
+    const del = confirm("Deseja mesmo remover esta nota?");
+    if (del) {
+      if (this.activeNoteIndex > -1) {
+        this.notes.splice(this.activeNoteIndex, 1);
+        this.clearContent();
+      }
+      this.resetDefaultActive();
+      this.saveState();
+      this.render();
     }
-    this.resetDefaultActive();
-    this.saveState();
-    this.render();
   }
 
   clearActiveItems() {
@@ -184,5 +193,4 @@ class Core {
     return null;
   }
 }
-
-const core = new Core();
+export default Core;

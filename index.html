@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Notes</title>
-    <!-- <link rel="stylesheet" href="fonts/style.css"> -->
     <link rel="stylesheet" href="style.css">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 </head>
@@ -13,14 +12,25 @@
       <div class="flex ml-10">
         <button class="btn-controll"><img src="./icons/layout.svg" class='icon' alt=""></button>
         <button class="btn-controll"><img src="./icons/paper-clip.svg" class='icon' alt=""></button>
-        <button class="btn-controll" onclick="core.removeNote()"><img src="./icons/trash.svg" class='icon' alt=""></button>
-        <button class="btn-controll" onclick="core.newNote()"><img src="./icons/add-note.svg" class='icon' alt=""></button>
+        <button class="btn-controll" id="remove-note"><img src="./icons/trash.svg" class='icon' alt=""></button>
+        <button class="btn-controll" id="add-note"><img src="./icons/add-note.svg" class='icon' alt=""></button>
       </div>
       <div class="flex ml-10">
         <button class="btn-controll"><img src="./icons/lock.svg" class='icon' alt=""></button>
         <button class="btn-controll" onclick="core.addTableOnContent(3,4)"><img src="./icons/table.svg" class='icon' alt=""></button>
         <button class="btn-controll"><img src="./icons/check.svg" class='icon' alt=""></button>
-        <button class="btn-controll"><img src="./icons/font.svg" class='icon' alt=""></button>
+        
+        <div class="menu">
+          <button class="btn-controll" id="font-format"><img src="./icons/font.svg" class='icon' alt="">
+          </button>
+          <ul id="submenu-fonts" class="sub hidden">
+            <li class="sub-item" data-tag="h1"><button class='no-button'><h1>Título</h1></button></li>
+            <li class="sub-item" data-tag="h3"><button class='no-button'><h3>Sub título</h3></button></li>
+            <li class="sub-item" data-tag="p"><button class='no-button'><p>Parágrafo</p></button></li>
+            <li class="sub-item" data-tag="monospaced"><button class='no-button'><pre>Mono-espaçado</pre></button></li>
+            <li class="sub-item" data-tag="code"><button class='no-button'><p class='code'>code</p></button></li>
+          </ul>
+        </div>
         <button class="btn-controll"><img src="./icons/images.svg" class='icon' alt=""></button>
       </div>
       <div class="flex ml-10">
@@ -49,6 +59,6 @@
         </div>
      </div>
    </div>
-   <script src="./core/index.js"></script>
+   <script type="module"  src="./modules/index.js"></script>
 </body>
 </html>
