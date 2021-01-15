@@ -1,6 +1,6 @@
+import moment from "../dependencies/moment/moment.js";
+import "../dependencies/moment/locale/pt-br.js";
 export default class Formatter {
-  H1 = "H1";
-  H2 = "H1";
   constructor() {}
   getSelection() {
     try {
@@ -56,6 +56,27 @@ export default class Formatter {
       }</${tagName}>`,
     };
   }
+
+  formatNoteDate(dateTime) {
+    moment.locale("pt-br");
+    const dateObj = moment(dateTime);
+    let date;
+    if (dateTime) {
+      const today = moment().format("DD/MM/YYYY");
+      const noteDate = dateObj.format("DD/MM/YYYY");
+      if (noteDate == today) {
+        date = dateObj.format("HH:mm");
+      } else {
+        date = dateObj.format("DD/MM");
+      }
+    }
+    return { abrev: date, extense: this.capitalize(dateObj.format("LLLL")) };
+  }
+
+  capitalize = (s) => {
+    if (typeof s !== "string") return "";
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
 
   htmlEncode(s) {
     var el = document.createElement("div");
