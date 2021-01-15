@@ -1,10 +1,14 @@
+import moment from "../dependencies/moment/moment.js";
+import "../dependencies/moment/locale/pt-br.js";
 import Formatter from "./formatter.js";
 
 class Core {
   constructor() {
+    moment.locale("pt-br");
     this.formatter = new Formatter();
     this.noteList = document.getElementById("note-list");
     this.editor = document.getElementById("editor");
+    this.noteDate = document.getElementById("note-date");
     this.editor.spellcheck = false;
     this.notes = [];
     this.activeNoteIndex = 0;
@@ -49,6 +53,7 @@ class Core {
       if (note.active) {
         this.editor.innerHTML = note.editor;
         this.activeNoteIndex = i;
+        this.noteDate.innerHTML = this.getNoteDate(note).extense;
       }
     });
   }
@@ -95,15 +100,31 @@ class Core {
     return "";
   }
 
+  getNoteDate(note) {
+    const { dateTime } = note;
+    moment.locale("pt-br");
+    const dateObj = moment(dateTime);
+    let date;
+    if (dateTime) {
+      const today = moment().format("DD/MM/YYYY");
+      const noteDate = dateObj.format("DD/MM/YYYY");
+      if (noteDate == today) {
+        date = dateObj.format("HH:mm");
+      } else {
+        date = dateObj.format("DD/MM");
+      }
+    }
+    return { abrev: date, extense: this.capitalize(dateObj.format("LLLL")) };
+  }
+
   _createNoteListItem(note, noteIndex) {
     const noteItem = document.createElement("div");
     const title = document.createElement("h4");
     const date = document.createElement("span");
     const p = document.createElement("p");
-    const now = new Date();
 
     title.innerText = `${note.title}`;
-    date.innerText = "12:00";
+    date.innerText = this.getNoteDate(note).abrev;
     p.innerText = note.resume || "";
 
     noteItem.appendChild(title);
@@ -120,7 +141,7 @@ class Core {
     const index = this.notes.length + 1;
     const note = {
       title: `Nota sem título ${index}`,
-      dateTime: "10/01/2020 13:00",
+      dateTime: moment(),
       editor: `<h1>Nota sem título ${index}</h1>`,
       active: true,
     };
@@ -192,5 +213,10 @@ class Core {
     }
     return null;
   }
+
+  capitalize = (s) => {
+    if (typeof s !== "string") return "";
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
 }
 export default Core;
