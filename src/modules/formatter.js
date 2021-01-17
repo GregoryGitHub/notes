@@ -1,5 +1,5 @@
-import moment from "../dependencies/moment/moment.js";
-import "../dependencies/moment/locale/pt-br.js";
+import moment from "../../dependencies/moment/moment.js";
+import "../../dependencies/moment/locale/pt-br.js";
 export default class Formatter {
   constructor() {}
   getSelection() {
@@ -50,8 +50,8 @@ export default class Formatter {
       origin = parentOuterHTML;
     }
     return {
-      origin,
-      data: `<${tagName}>${
+      searchValue: origin,
+      replaceValue: `<${tagName}>${
         elementsInnerHTML || this.htmlEncode(selectionText)
       }</${tagName}>`,
     };
@@ -84,6 +84,7 @@ export default class Formatter {
     s = el.innerHTML;
     return s;
   }
+
   htmlDecode(input) {
     var e = document.createElement("textarea");
     e.innerHTML = input;

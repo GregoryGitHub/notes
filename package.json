@@ -2,7 +2,7 @@
   "name": "notes",
   "version": "1.0.0",
   "description": "App that facilites your notes managment",
-  "main": "main.js",
+  "main": "src/main.js",
   "build": {
     "appId": "notes.all",
     "mac": {
