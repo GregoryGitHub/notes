@@ -17,7 +17,17 @@
       </div>
       <div class="flex ml-10">
         <button class="btn-controll"><img src="./icons/lock.svg" class='icon' alt=""></button>
-        <button class="btn-controll" onclick="core.addTableOnContent(3,4)"><img src="./icons/table.svg" class='icon' alt=""></button>
+        <div class="menu">
+          <button class="btn-controll" id="add-table"><img src="./icons/table.svg" class='icon' alt=""></button>
+          <ul id="submenu-table" class="sub hidden">
+            <li class="sub-item" data-tag="2x2"><button class='no-button'>2x2</button></li>
+            <li class="sub-item" data-tag="2x3"><button class='no-button'>2x3</button></li>
+            <li class="sub-item" data-tag="3x3"><button class='no-button'>3x3</button></li>
+            <li class="sub-item" data-tag="3x4"><button class='no-button'>3x4</button></li>
+            <li class="sub-item" data-tag="4x4"><button class='no-button'>4x4</button></li>
+            <li class="sub-item" data-tag="custom"><button class='no-button'>Customizado</button></li>
+          </ul>
+        </div>
         <button class="btn-controll"><img src="./icons/check.svg" class='icon' alt=""></button>
         
         <div class="menu">

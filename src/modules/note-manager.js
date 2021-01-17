@@ -6,13 +6,40 @@
 
 import moment from "../../dependencies/moment/moment.js";
 import Formatter from "../modules/formatter.js";
+import Builder from '../modules/builder.js';
+import Editor from "../modules/editor.js";
+
 export default class NoteManager {
   constructor() {
     this.formatter = new Formatter();
+    this.builder = new Builder();
+    this.editor = new Editor();
     this.noteDate = document.getElementById("note-date");
     this.noteList = document.getElementById("note-list");
     this.notes = [];
     this.activeNoteIndex = 0;
+  }
+
+  render() {
+    this.resetList();
+    this.getNotes().forEach((note, noteIndex) => {
+      const { title, resume, active, content, dateTime } = note;
+      const { extense, abrev } = this.formatter.formatNoteDate(dateTime);
+      const listItem = this.builder.buildNoteListItem(
+        title,
+        resume,
+        active,
+        noteIndex,
+        abrev
+      );
+      listItem.addEventListener("click", this.onNoteClicked);
+      this.appendNote(listItem);
+      if (active) {
+        this.editor.setContent(content);
+        this.setActiveNoteIndex(noteIndex);
+        this.setDateDescription(extense);
+      }
+    });
   }
 
   appendNote(noteItem) {
@@ -31,11 +58,12 @@ export default class NoteManager {
     return this.notes;
   }
 
-  onNoteClicked(event) {
+  onNoteClicked =(event)=> {
     this.resetActiveNotes(); // problemas de escopo
     const index = event.currentTarget.getAttribute("data-note-index");
     this.notes[index].active = true;
     this.saveState();
+    this.render();
   }
 
   renderActiveNote() {
@@ -77,6 +105,7 @@ export default class NoteManager {
 
     this.notes.push(note);
     this.saveState();
+    this.render();
   }
 
   resetDefaultActive(index = 0) {
@@ -95,6 +124,7 @@ export default class NoteManager {
       }
       this.resetDefaultActive();
       this.saveState();
+      this.render();
     }
   }
 
@@ -115,6 +145,7 @@ export default class NoteManager {
   loadState() {
     try {
       this.notes = JSON.parse(localStorage.getItem("folder::notes")) || [];
+      this.render();
     } catch (error) {
       console.log("Erro ao recuperar notas", error);
     }
