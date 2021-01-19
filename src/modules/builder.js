@@ -1,5 +1,15 @@
 export default class Builder {
   constructor() {}
+
+  buildFolderItem(folderName) {
+    const a = document.createElement("a");
+    a.setAttribute("href", "#");
+    a.setAttribute("id", this.makeIdByString("folder", folderName));
+    a.classList.add("note-item");
+    a.innerText = folderName;
+    return a;
+  }
+
   buildTable(rows, collums) {
     const table = document.createElement("table");
     table.classList.add("_inner_content_table");
@@ -40,5 +50,10 @@ export default class Builder {
     noteItem.setAttribute("data-note-index", noteIndex);
     noteActive && noteItem.classList.add("active");
     return noteItem;
+  }
+
+  makeIdByString(prefix = "", string = "") {
+    string = string.toLowerCase();
+    return prefix + "-" + string.replaceAll(/\s/, "-");
   }
 }

@@ -118,6 +118,9 @@ div:focus, input:focus, *:focus {
 .ml-10 {
   margin-left: 10px;
 }
+.pd-10{
+  padding: 10px;
+}
 
 .icon {
   width: 18px;
@@ -192,19 +195,30 @@ div:focus, input:focus, *:focus {
 .note-folders {
   position: relative;
   max-width: 200px;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.new-folder {}
+.folder-item{
+  display: block;
+  text-decoration: none;
+  color:#555;
+  font-size: small;
+  padding: 5px 5px 5px 20px;
+  font-weight: bold;
+}
+.folder-item.active {
+  background: #e6e6e6;
+  color:#222;
+}
 
 .note-folders p {
   font-weight: bold;
-  color: #666;
+  color: #999;
   font-size: .8rem;
   cursor: pointer;
+  padding: 10px;
 }
 
 .new-folder {
@@ -214,8 +228,8 @@ div:focus, input:focus, *:focus {
 
 .note-date {
   text-align: center;
-  color: #666;
-  padding: 0 0 10px 0;
+  color: #999;
+  padding: 0 0 40px 0;
   /* text-transform: capitalize; */
 }
 
